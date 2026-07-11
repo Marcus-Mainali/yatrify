@@ -136,11 +136,8 @@ export default function ChatScreen() {
       {/* Header Panel */}
       <div className="px-6 pt-2 pb-3.5 border-b border-neutral-100 dark:border-zinc-800 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-rose-500 flex items-center justify-center text-white shadow-md shadow-rose-500/10">
-            <Sparkles className="w-5 h-5 fill-white" />
-          </div>
           <div>
-            <h2 className="font-black text-sm text-zinc-900 dark:text-white tracking-tight leading-none">Yatrify Travel Guide</h2>
+            <h2 className="font-black text-sm text-[#D91B5C] dark:text-rose-400 tracking-tight leading-none">Yatrify Travel Guide</h2>
           </div>
         </div>
       </div>

@@ -58,7 +58,7 @@ export default function ExploreScreen({ onSelectDestination, bookings }: Explore
         
         {/* Page Header */}
         <div className="px-6 md:px-0 pt-2 pb-2">
-          <h2 className="font-black text-2xl md:text-3xl text-zinc-900 dark:text-white tracking-tight">Explore Nepal</h2>
+          <h2 className="font-black text-2xl md:text-3xl text-[#D91B5C] dark:text-rose-400 tracking-tight">Explore Nepal</h2>
           <p className="text-[10px] md:text-xs text-zinc-400 dark:text-zinc-500 font-semibold mt-0.5">Find expeditions, trails, and cultural wonders</p>
         </div>
 

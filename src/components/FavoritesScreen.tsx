@@ -51,7 +51,7 @@ export default function FavoritesScreen({
         {/* Header */}
         <div className="px-6 md:px-0 pt-2 pb-2 flex items-center justify-between">
           <div>
-            <h2 className="font-black text-2xl md:text-3xl text-zinc-900 dark:text-white tracking-tight">Your Wishlist</h2>
+            <h2 className="font-black text-2xl md:text-3xl text-[#D91B5C] dark:text-rose-400 tracking-tight">Your Wishlist</h2>
             <p className="text-[10px] md:text-xs text-zinc-400 dark:text-zinc-500 font-semibold mt-0.5">Your pinned mountains, valleys, and lakeside camps</p>
           </div>
 

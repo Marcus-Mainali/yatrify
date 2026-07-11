@@ -7,12 +7,13 @@ import FavoritesScreen from "./components/FavoritesScreen";
 import ChatScreen from "./components/ChatScreen";
 import SettingsScreen from "./components/SettingsScreen";
 import DetailsScreen from "./components/DetailsScreen";
-import YatrifyLogo from "./components/YatrifyLogo";
 import { Destination, Booking, UserPreferences } from "./types";
 import { DESTINATIONS } from "./data";
 import { translations } from "./translations";
 
 export default function App() {
+  const VISITED_STORAGE_KEY = "yatrify_visited_destinations";
+
   // Splash Screen State
   const [showSplash, setShowSplash] = useState(() => {
     return !sessionStorage.getItem("yatrify_splash_shown");
@@ -233,8 +234,7 @@ export default function App() {
     // Re-fetch all data on pull down gesture refresh
     await Promise.all([
       fetchFavorites(),
-      fetchBookings(),
-      checkSupabaseStatus()
+      fetchBookings()
     ]).catch(err => console.error("Error updating on refresh gesture:", err));
 
     if (showSettings) {
@@ -248,17 +248,17 @@ export default function App() {
 
   // Global State
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [visited, setVisited] = useState<string[]>([]);
+  const [visited, setVisited] = useState<string[]>(() => {
+    try {
+      const savedVisited = localStorage.getItem(VISITED_STORAGE_KEY);
+      return savedVisited ? JSON.parse(savedVisited) : [];
+    } catch {
+      return [];
+    }
+  });
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [darkMode, setDarkMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Supabase Status State
-  const [supabaseStatus, setSupabaseStatus] = useState({
-    configured: false,
-    connected: false,
-    message: "Checking database status..."
-  });
 
   // Fetching handlers from API
   const fetchFavorites = async () => {
@@ -285,24 +285,19 @@ export default function App() {
     }
   };
 
-  const checkSupabaseStatus = async () => {
-    try {
-      const res = await fetch("/api/supabase-status");
-      if (res.ok) {
-        const status = await res.json();
-        setSupabaseStatus(status);
-      }
-    } catch (err) {
-      console.error("Failed to check Supabase status:", err);
-    }
-  };
-
   // Initial load
   useEffect(() => {
     fetchFavorites();
     fetchBookings();
-    checkSupabaseStatus();
   }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(VISITED_STORAGE_KEY, JSON.stringify(visited));
+    } catch (err) {
+      console.error("Failed to persist visited destinations:", err);
+    }
+  }, [visited]);
 
   // Sync dark mode class on local elements
   useEffect(() => {
@@ -329,7 +324,7 @@ export default function App() {
         body: JSON.stringify({ destinationId: id, isFavorite: isNowFavorite }),
       });
     } catch (err) {
-      console.error("Failed to sync favorite update to Supabase:", err);
+      console.error("Failed to sync favorite update:", err);
     }
   };
 
@@ -350,7 +345,7 @@ export default function App() {
         body: JSON.stringify(newBooking),
       });
     } catch (err) {
-      console.error("Failed to sync new booking to Supabase:", err);
+      console.error("Failed to sync new booking:", err);
     }
   };
 
@@ -427,10 +422,6 @@ export default function App() {
               }}
               className="flex items-center gap-3 cursor-pointer group hover:opacity-90 transition-opacity"
             >
-              {/* Only show logo when not on the home screen */}
-              {!(currentTab === "home" && !showSettings && !selectedDestinationId) && (
-                <YatrifyLogo className="w-10 h-10 shadow-md shadow-rose-500/10" />
-              )}
               <span className={`font-black text-2xl tracking-wider font-sans transition-colors ${
                 currentTab === "home" && !showSettings && !selectedDestinationId
                   ? "text-rose-600 dark:text-rose-500"
@@ -680,7 +671,6 @@ export default function App() {
                     darkMode={darkMode}
                     onToggleDarkMode={() => setDarkMode(!darkMode)}
                     bookings={bookings}
-                    supabaseStatus={supabaseStatus}
                     onCancelBooking={handleCancelBooking}
                     onBackToHome={handleBackNavigation}
                     language={language}

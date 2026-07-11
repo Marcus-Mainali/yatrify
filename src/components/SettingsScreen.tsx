@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Sun, Moon, Globe, Info, AlertTriangle, Database, Calendar, Users, CreditCard, XCircle, CheckCircle2, Laptop, Terminal, Download, HelpCircle, Share } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sun, Moon, Globe, Info, Calendar, Users, CreditCard, XCircle, CheckCircle2, Laptop, Terminal, Download, HelpCircle, Share } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import YatrifyLogo from "./YatrifyLogo";
 import { translations } from "../translations";
@@ -11,7 +11,6 @@ interface SettingsScreenProps {
   onBackToHome: () => void;
   language: "en" | "ne";
   onChangeLanguage: (lang: "en" | "ne") => void;
-  supabaseStatus?: { configured: boolean; connected: boolean; message: string };
   onCancelBooking?: (id: string) => void;
 }
 
@@ -22,7 +21,6 @@ export default function SettingsScreen({
   onBackToHome,
   language,
   onChangeLanguage,
-  supabaseStatus = { configured: false, connected: false, message: "Offline Mode" },
   onCancelBooking,
 }: SettingsScreenProps) {
   // Navigation within settings: "settings" or "profile" or "desktop"
