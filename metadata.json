@@ -1,0 +1,6 @@
+{
+  "name": "Yatrify",
+  "description": "An interactive travel exploration and booking application for Nepal, featuring Kulekhani, Kuri Village, Ramaroshan, Badimalika, and Ghandruk, with a dark mode toggle and real-time travel assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
